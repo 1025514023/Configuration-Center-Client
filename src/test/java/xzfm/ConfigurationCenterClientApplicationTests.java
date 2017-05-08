@@ -1,4 +1,4 @@
-package wxfm;
+package xzfm;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
