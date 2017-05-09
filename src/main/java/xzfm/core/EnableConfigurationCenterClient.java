@@ -1,8 +1,10 @@
 package xzfm.core;
 
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Import;
-import xzfm.core.cache.CacheConfigurationCenter;
+import xzfm.core.handler.init.InitializationConfigurationCenterToCache;
+import xzfm.core.handler.task.AutoTaskFetchCache;
+import xzfm.core.handler.task.AutoTaskUpdateCache;
+import xzfm.core.handler.task.InitializationAutoTask;
 
 import java.lang.annotation.*;
 
@@ -12,7 +14,10 @@ import java.lang.annotation.*;
 @Documented
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Import(CacheConfigurationCenter.class)
+@Import({
+        InitializationConfigurationCenterToCache.class,
+        InitializationAutoTask.class
+})
 public @interface EnableConfigurationCenterClient {
 
     boolean refresh() default true;//主动刷新
