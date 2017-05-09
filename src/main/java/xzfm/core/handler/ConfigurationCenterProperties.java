@@ -11,8 +11,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * Created by wangxizhong on 2017/5/9.
  */
 @Component
-public class CacheConfiguration implements Serializable {
-    private int interval;
+public class ConfigurationCenterProperties implements Serializable {
+    private int interval=10;
     private boolean refresh;
     private volatile boolean modifying = false;
     private List<ConfigurationCenterDto> cacheConfiguration = new CopyOnWriteArrayList<>();

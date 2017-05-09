@@ -25,6 +25,9 @@ public class ConfigurationCenter extends BaseEntity implements SpringMonitor {
     @Column
     private String status;
 
+    @Column
+    private String remark;
+
     @Column(name = "configuration_key")
     private String configurationKey;
 
@@ -41,6 +44,14 @@ public class ConfigurationCenter extends BaseEntity implements SpringMonitor {
     public static final String TYPE_WEB = "web";
 
     public static final String TYPE_WECHAT = "weChat";
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
     public int getTtl() {
         return ttl;
@@ -83,7 +94,7 @@ public class ConfigurationCenter extends BaseEntity implements SpringMonitor {
     }
 
     public static ConfigurationCenter create(String configurationKey, String configurationValue, String type,
-                                             String status,int ttl) {
+                                             String status, int ttl, String remark) {
 
         ConfigurationCenter configurationCenter = new ConfigurationCenter();
         configurationCenter.setTtl(ttl);

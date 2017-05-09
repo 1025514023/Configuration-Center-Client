@@ -21,24 +21,24 @@ public class FetchConfigurationCenter {
     private ConfigurationCenterDao centerDao;
 
     @Autowired
-    private CacheConfiguration cacheConfiguration;
+    private ConfigurationCenterProperties configurationCenterProperties;
 
-    private ReentrantLock reentrantLock = new ReentrantLock(true);
+    private ReentrantLock reentrantLock = new ReentrantLock(false);
 
     public void fetchConfigurationToCache() {
         List<ConfigurationCenter> centerList = centerDao.findAll();
         if (centerList != null && centerList.size() > 0) {
-            fetchCacheConfigurationToSafeMap(centerList);
+            fetchCacheConfigurationToSafeList(centerList);
         }
     }
 
-    private void fetchCacheConfigurationToSafeMap(List<ConfigurationCenter> targetConfig) {
+    private void fetchCacheConfigurationToSafeList(List<ConfigurationCenter> targetConfig) {
         List<ConfigurationCenterDto> centerDtoList = new ArrayList<>();
         reentrantLock.lock();
         for (ConfigurationCenter config : targetConfig) {
             centerDtoList.add(BCC.build(config, ConfigurationCenterDto.class));
         }
-        cacheConfiguration.setCacheConfiguration(centerDtoList);
+        configurationCenterProperties.setCacheConfiguration(centerDtoList);
         reentrantLock.unlock();
     }
 
@@ -56,8 +56,8 @@ public class FetchConfigurationCenter {
 
     private class FetchCache {
         private String getCacheConfigurationValue(String configurationKey) {
-            if (cacheConfiguration.getCacheConfiguration() != null) {
-                for (ConfigurationCenterDto centerDto : cacheConfiguration.getCacheConfiguration()) {
+            if (configurationCenterProperties.getCacheConfiguration() != null) {
+                for (ConfigurationCenterDto centerDto : configurationCenterProperties.getCacheConfiguration()) {
                     if (configurationKey.equals(centerDto.getConfigurationKey())) {
                         return centerDto.getConfigurationValue();
                     }

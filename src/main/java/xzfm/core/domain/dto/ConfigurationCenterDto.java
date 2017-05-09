@@ -11,9 +11,18 @@ public class ConfigurationCenterDto implements Serializable {
     private String id;
     private String type;
     private String status;
+    private String remark;
     private Timestamp utime;
     private String configurationKey;
     private String configurationValue;
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
     public Timestamp getUtime() {
         return utime;

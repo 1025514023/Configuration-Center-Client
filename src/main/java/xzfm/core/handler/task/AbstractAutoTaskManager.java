@@ -2,17 +2,21 @@ package xzfm.core.handler.task;
 
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import xzfm.core.handler.FetchConfigurationCenter;
 
 /**
  * Created by wangxizhong on 2017/5/9.
  */
 public abstract class AbstractAutoTaskManager {
+
     private static SchedulerFactory schedulerFactory = new StdSchedulerFactory();
 
-    public static void addAutoTask(String taskName, int intervalSeconds) throws SchedulerException {
+    public void addAutoTask(String taskName, int intervalSeconds) throws SchedulerException {
         Scheduler scheduler = schedulerFactory.getScheduler();
         JobDetail taskDetail = buildJobDetail();
-        Trigger trigger = TriggerBuilder.newTrigger().forJob(taskName).
+        Trigger trigger = TriggerBuilder.newTrigger().
                 withSchedule(
                         CalendarIntervalScheduleBuilder.calendarIntervalSchedule().withIntervalInSeconds(intervalSeconds)
                 ).startNow().build();
@@ -22,7 +26,5 @@ public abstract class AbstractAutoTaskManager {
         }
     }
 
-    protected JobDetail buildJobDetail() {
-        return null;
-    }
+    protected abstract JobDetail buildJobDetail();
 }

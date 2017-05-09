@@ -1,9 +1,6 @@
 package xzfm.core;
 
 import org.springframework.context.annotation.Import;
-import xzfm.core.handler.init.InitializationConfigurationCenterToCache;
-import xzfm.core.handler.task.AutoTaskFetchCache;
-import xzfm.core.handler.task.AutoTaskUpdateCache;
 import xzfm.core.handler.task.InitializationAutoTask;
 
 import java.lang.annotation.*;
@@ -15,7 +12,6 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Import({
-        InitializationConfigurationCenterToCache.class,
         InitializationAutoTask.class
 })
 public @interface EnableConfigurationCenterClient {
