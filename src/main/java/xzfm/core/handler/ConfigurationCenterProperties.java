@@ -6,6 +6,8 @@ import xzfm.core.domain.dto.ConfigurationCenterDto;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -13,15 +15,17 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 @Component
 public class ConfigurationCenterProperties implements Serializable {
-    @Value("${task.interval}")
+    @Value("${task.interval:86400}")
     private int interval;
 
-    @Value("${task.refresh}")
+    @Value("${task.refresh:true}")
     private boolean refresh;
 
     private volatile boolean modifying = false;
 
     private List<ConfigurationCenterDto> cacheConfiguration = new CopyOnWriteArrayList<>();
+
+    private ConcurrentMap cacheTTLMap = new ConcurrentHashMap();
 
     public static final String TASK_UPDATE = "task_update";
 
@@ -36,7 +40,6 @@ public class ConfigurationCenterProperties implements Serializable {
     }
 
     public int getInterval() {
-        if (interval <= 0) interval = 86400;
         return interval;
     }
 
@@ -50,6 +53,14 @@ public class ConfigurationCenterProperties implements Serializable {
 
     public void setModifying(boolean modifying) {
         this.modifying = modifying;
+    }
+
+    public ConcurrentMap<String,CacheTTL> getCacheTTLMap() {
+        return cacheTTLMap;
+    }
+
+    public void setCacheTTLMap(ConcurrentMap cacheTTLMap) {
+        this.cacheTTLMap = cacheTTLMap;
     }
 
     public List<ConfigurationCenterDto> getCacheConfiguration() {
@@ -69,6 +80,33 @@ public class ConfigurationCenterProperties implements Serializable {
     public void markModifyed() {
         synchronized (this) {
             refresh = false;
+        }
+    }
+
+
+    public static class CacheTTL {
+        private String configurationValue;
+        private int ttl;
+
+        public String getConfigurationValue() {
+            return configurationValue;
+        }
+
+        public void setConfigurationValue(String configurationValue) {
+            this.configurationValue = configurationValue;
+        }
+
+        public int getTtl() {
+            return ttl;
+        }
+
+        public void setTtl(int ttl) {
+            this.ttl = ttl;
+        }
+
+        public CacheTTL(String configurationValue, int ttl) {
+            this.configurationValue = configurationValue;
+            this.ttl = ttl;
         }
     }
 }
