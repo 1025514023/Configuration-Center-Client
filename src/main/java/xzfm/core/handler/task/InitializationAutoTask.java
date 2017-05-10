@@ -18,6 +18,8 @@ public class InitializationAutoTask implements InitializingBean {
     }
 
     private void autoTaskStartForIntervalFetch() throws SchedulerException {
-        new AutoTaskFetchCache().addAutoTask(ConfigurationCenterProperties.TASK_FETCH, configurationCenterProperties.getInterval());
+        if(configurationCenterProperties.isRefresh()) {
+            new AutoTaskFetchCache().addAutoTask(ConfigurationCenterProperties.TASK_FETCH, configurationCenterProperties.getInterval());
+        }
     }
 }

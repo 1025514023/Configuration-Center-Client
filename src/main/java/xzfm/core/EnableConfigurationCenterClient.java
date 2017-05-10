@@ -11,12 +11,7 @@ import java.lang.annotation.*;
 @Documented
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Import({
-        InitializationAutoTask.class
-})
+@Import({InitializationAutoTask.class})
 public @interface EnableConfigurationCenterClient {
 
-    boolean refresh() default true;//主动刷新
-
-    int interval() default 3600;//second
 }

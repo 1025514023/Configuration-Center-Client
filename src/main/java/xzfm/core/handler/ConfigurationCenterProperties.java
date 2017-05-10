@@ -1,5 +1,6 @@
 package xzfm.core.handler;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import xzfm.core.domain.dto.ConfigurationCenterDto;
 
@@ -12,12 +13,19 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 @Component
 public class ConfigurationCenterProperties implements Serializable {
-    private int interval=10;
+    @Value("${task.interval}")
+    private int interval;
+
+    @Value("${task.refresh}")
     private boolean refresh;
+
     private volatile boolean modifying = false;
+
     private List<ConfigurationCenterDto> cacheConfiguration = new CopyOnWriteArrayList<>();
-    public static final String TASK_UPDATE="task_update";
-    public static final String TASK_FETCH="task_fetch";
+
+    public static final String TASK_UPDATE = "task_update";
+
+    public static final String TASK_FETCH = "task_fetch";
 
     public boolean isRefresh() {
         return refresh;
@@ -28,6 +36,7 @@ public class ConfigurationCenterProperties implements Serializable {
     }
 
     public int getInterval() {
+        if (interval <= 0) interval = 86400;
         return interval;
     }
 

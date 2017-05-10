@@ -9,7 +9,7 @@ import xzfm.monitor.EnableDataMonitor;
 @EnableDataMonitor
 @SpringBootApplication
 @EnableJpaEntityManager
-@EnableConfigurationCenterClient(refresh = false)
+@EnableConfigurationCenterClient
 public class ConfigurationCenterClientApplication {
 
 	public static void main(String[] args) {

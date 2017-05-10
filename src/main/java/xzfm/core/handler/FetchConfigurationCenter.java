@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xzfm.common.boot.exception.ASS;
 import xzfm.common.domain.copier.BCC;
+import xzfm.core.EnableConfigurationCenterClient;
 import xzfm.core.data.ConfigurationCenterDao;
 import xzfm.core.domain.dto.ConfigurationCenterDto;
 import xzfm.core.domain.entity.ConfigurationCenter;
@@ -16,6 +17,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * Created by wangxizhong on 2017/5/9.
  */
 @Component
+@EnableConfigurationCenterClient
 public class FetchConfigurationCenter {
     @Autowired
     private ConfigurationCenterDao centerDao;
